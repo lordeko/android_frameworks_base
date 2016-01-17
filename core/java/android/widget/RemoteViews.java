@@ -56,6 +56,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.android.internal.util.rr.ColorHelper;
+import android.provider.Settings;
 
 import libcore.util.Objects;
 
@@ -75,7 +76,14 @@ import java.util.HashMap;
  */
 public class RemoteViews implements Parcelable, Filter {
 
+
     private static final String LOG_TAG = "RemoteViews";
+    public Context mContext;
+
+     //public RemoteViews(Context context) {
+       // super(context);
+       // mContext = context;
+    //}
 
     /**
      * The intent extra that contains the appWidgetId.
@@ -140,6 +148,8 @@ public class RemoteViews implements Parcelable, Filter {
      * and the latter disabled when this flag is true.
      */
     private boolean mIsWidgetCollectionChild = false;
+ 
+    private boolean mColorSwitch = false;	
 
     private static final OnClickHandler DEFAULT_ON_CLICK_HANDLER = new OnClickHandler();
 
@@ -1623,6 +1633,7 @@ public class RemoteViews implements Parcelable, Filter {
      * (s/t/e/b) or cardinal (l/t/r/b) arrangement.
      */
     private class TextViewDrawableColorFilterAction extends Action {
+	private boolean MColorSwitch = false;
         public TextViewDrawableColorFilterAction(int viewId, boolean isRelative, int index,
                 int color, PorterDuff.Mode mode) {
             this.viewId = viewId;
@@ -1660,7 +1671,10 @@ public class RemoteViews implements Parcelable, Filter {
 
         @Override
         public void apply(View root, ViewGroup rootParent, OnClickHandler handler) {
+	    final Context context =  root.getContext();	  	    
             final TextView target = (TextView) root.findViewById(viewId);
+	     MColorSwitch =  Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.NOTIF_COLOR_SWITCH, 0) == 1;	
             if (target == null) return;
             Drawable[] drawables = isRelative
                     ? target.getCompoundDrawablesRelative()
@@ -1671,7 +1685,11 @@ public class RemoteViews implements Parcelable, Filter {
             Drawable d = drawables[index];
             if (d != null) {
                 d.mutate();
-                d.setColorFilter(ColorHelper.getColorFilter(color));
+		if(MColorSwitch) {
+                d.setColorFilter(ColorHelper.getColorFilter(color)); 
+		} else {
+		 d.setColorFilter(color, mode);
+		}
             }
         }
 
