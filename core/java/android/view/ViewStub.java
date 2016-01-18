@@ -15,7 +15,7 @@
  */
 
 package android.view;
-
+import android.annotation.ColorInt;
 import android.annotation.IdRes;
 import android.annotation.LayoutRes;
 import android.content.Context;
@@ -78,10 +78,12 @@ public final class ViewStub extends View {
 
     private LayoutInflater mInflater;
     private OnInflateListener mInflateListener;
-
+  
     public ViewStub(Context context) {
         this(context, 0);
     }
+
+
 
     /**
      * Creates a new ViewStub with the specified layout resource.
@@ -98,6 +100,8 @@ public final class ViewStub extends View {
     public ViewStub(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
+
+   	
 
     public ViewStub(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
@@ -204,6 +208,7 @@ public final class ViewStub extends View {
     @Override
     public void draw(Canvas canvas) {
     }
+
 
     @Override
     protected void dispatchDraw(Canvas canvas) {

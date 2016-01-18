@@ -3865,8 +3865,7 @@ public class Notification implements Parcelable
             }
         }
 
-        protected RemoteViews getStandardView(int layoutId) {
-	Context context = mContext;	    
+        protected RemoteViews getStandardView(int layoutId) {	    
             checkBuilder();
 
             // Nasty.
@@ -4661,42 +4660,20 @@ public class Notification implements Parcelable
         /**
          * Applies the special text colors for media notifications to all text views.
          */
-        private void styleText(RemoteViews contentView) {
-	        MColorSwitch =  Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.NOTIF_COLOR_SWITCH, 0) == 1;		
+    private void styleText(RemoteViews contentView) {
             int primaryColor = mBuilder.getTextColor(255);
             int secondaryColor = mBuilder.getTextColor(179);
-	      int primaryC = mBuilder.mContext.getColor(
-                    R.color.notification_media_primary_color);
-            int secondaryC = mBuilder.mContext.getColor(
-                    R.color.notification_media_secondary_color);
             contentView.setTextColor(R.id.title, primaryColor);
             if (mBuilder.showsTimeOrChronometer()) {
-		if(MColorSwitch) {
                 if (mBuilder.mUseChronometer) {
                     contentView.setTextColor(R.id.chronometer, secondaryColor);
                 } else {
                     contentView.setTextColor(R.id.time, secondaryColor);
-                	}
-		} else {
-		  if (mBuilder.mUseChronometer) {
-                    contentView.setTextColor(R.id.chronometer, secondaryC);
-                } else {
-                    contentView.setTextColor(R.id.time, secondaryC);
-                	}
-		}
-		
+                }
             }
-		if(MColorSwitch) {
             contentView.setTextColor(R.id.text2, secondaryColor);
             contentView.setTextColor(R.id.text, secondaryColor);
             contentView.setTextColor(R.id.info, secondaryColor);
-		}
-	else
-	{ contentView.setTextColor(R.id.text2, secondaryC);
-            contentView.setTextColor(R.id.text, secondaryC);
-            contentView.setTextColor(R.id.info, secondaryC);
-	}
         }
 
         /**

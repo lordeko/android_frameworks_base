@@ -1671,7 +1671,7 @@ public class RemoteViews implements Parcelable, Filter {
 
         @Override
         public void apply(View root, ViewGroup rootParent, OnClickHandler handler) {
-	    final Context context =  root.getContext();	  	    
+	    	    
             final TextView target = (TextView) root.findViewById(viewId);
 	     MColorSwitch =  Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.NOTIF_COLOR_SWITCH, 0) == 1;	
